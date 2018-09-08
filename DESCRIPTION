@@ -1,0 +1,21 @@
+Package: dpash
+Type: Package
+Title: R/dpash is an R package with miscellaneous R functions that are useful 
+    to me
+Description: Functions for my use. Will include fit functions and utility 
+    functions.
+Version: 0.1.0
+Author: c(person("Dustin", "Pashouwer", email = "dpashouwer@gmail.com", role = 
+    c("aut", "cre"))
+License: MIT + file LICENSE
+Maintainer: The package maintainer <dpashouwer@gmail.com>
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    broom,
+    dplyr,
+    janitor,
+    purrr,
+    modelr, 
+    magrittr
+RoxygenNote: 6.1.0
