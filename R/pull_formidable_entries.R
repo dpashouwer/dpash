@@ -1,20 +1,18 @@
 #' Pull Formidable Entries
 #'
-#' @param url
-#' @param my_username
-#' @param my_password
+#' @param url website url
+#' @param my_username Formidable Username
+#' @param my_password Formidable Password
 #'
-#' @return
+#' @return Returns the Formidable entries as a data frame.
 #' @export
-#'
-#' @examples
 pull_formidable_entries <- function(url, my_username, my_password, page_size = 500){
 
   page <- 1
 
   message("Retrieving page: ", page)
 
-  all_entries <- httr::GET(url = paste0(url, "entries?page_size=", page_size, "&page=", page), config = authenticate(my_username, my_password)) %>%
+  all_entries <- httr::GET(url = paste0(url, "entries?page_size=", page_size, "&page=", page), config = httr::authenticate(my_username, my_password)) %>%
     httr::content("text") %>%
     tidyjson::as.tbl_json() %>%
     tidyjson::gather_keys()
@@ -28,7 +26,7 @@ pull_formidable_entries <- function(url, my_username, my_password, page_size = 5
     message("Retrieving page: ", page)
 
     # pull data from website
-    page_data <- httr::GET(url = paste0(url, "entries?page_size=", page_size, "/&page=", page), config = authenticate(my_username, my_password)) %>%
+    page_data <- httr::GET(url = paste0(url, "entries?page_size=", page_size, "/&page=", page), config = httr::authenticate(my_username, my_password)) %>%
       httr::content("text")
 
     # test if it's empty
@@ -44,18 +42,12 @@ pull_formidable_entries <- function(url, my_username, my_password, page_size = 5
       all_entries <- rbind_tbl_json(all_entries, page_data)
     }
   }
+
+  all_entries
 }
 
 
 #' bind json pages together using tidyjson
-#'
-#' @param x
-#' @param y
-#'
-#' @return
-#' @export
-#'
-#' @examples
 rbind_tbl_json <- function(x, y) {
 
   tbl_json(
