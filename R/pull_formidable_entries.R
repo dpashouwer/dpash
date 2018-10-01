@@ -50,8 +50,8 @@ pull_formidable_entries <- function(url, my_username, my_password, page_size = 5
 #' bind json pages together using tidyjson
 rbind_tbl_json <- function(x, y) {
 
-  tbl_json(
-    bind_rows(x %>% unclass, y %>% unclass),
+  tidyjson::tbl_json(
+    dplyr::bind_rows(x %>% unclass, y %>% unclass),
     c(attr(x, "JSON"), attr(y, "JSON"))
   )
 }
