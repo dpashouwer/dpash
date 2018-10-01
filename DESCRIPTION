@@ -16,6 +16,8 @@ Imports:
     dplyr,
     janitor,
     purrr,
-    modelr, 
-    magrittr
+    modelr,
+    magrittr,
+    httr,
+    tidyjson
 RoxygenNote: 6.1.0
