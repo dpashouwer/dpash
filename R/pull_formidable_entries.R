@@ -14,8 +14,7 @@ pull_formidable_entries <- function(url, my_username, my_password, page_size = 5
 
   all_entries <- httr::GET(url = paste0(url, "entries?page_size=", page_size, "&page=", page), config = httr::authenticate(my_username, my_password)) %>%
     httr::content("text") %>%
-    tidyjson::as.tbl_json() %>%
-    tidyjson::gather_keys()
+    jsonlite::fromJSON()
 
   next_page <- TRUE
 
@@ -26,32 +25,25 @@ pull_formidable_entries <- function(url, my_username, my_password, page_size = 5
     message("Retrieving page: ", page)
 
     # pull data from website
-    page_data <- httr::GET(url = paste0(url, "entries?page_size=", page_size, "/&page=", page), config = httr::authenticate(my_username, my_password)) %>%
-      httr::content("text")
+    page_data <- httr::GET(url = paste0(url, "entries?page_size=", page_size, "&page=", page), config = httr::authenticate(my_username, my_password)) %>%
+      httr::content("text") %>%
+      jsonlite::fromJSON()
 
     # test if it's empty
-    if(page_data == "[]"){
+    if(length(page_data) == 0){
       next_page <- FALSE
     } else {
       # make tbl_json
-      page_data <- page_data %>%
-        tidyjson::as.tbl_json() %>%
-        tidyjson::gather_keys()
-
-      # bind to all_entries
-      all_entries <- rbind_tbl_json(all_entries, page_data)
+      all_entries <- dplyr::union(all_entries, page_data)
     }
   }
 
-  all_entries
+  purrr::map_df(all_entries, collapse_list_item_to_df)
 }
 
-
-#' bind json pages together using tidyjson
-rbind_tbl_json <- function(x, y) {
-
-  tidyjson::tbl_json(
-    dplyr::bind_rows(x %>% unclass, y %>% unclass),
-    c(attr(x, "JSON"), attr(y, "JSON"))
-  )
+# make tibble
+collapse_list_item_to_df <- function(x){
+  y <- purrr::flatten(x)
+  y <- y[names(y)] # this has different length, messes things up, don't need for now
+  tibble::as_tibble(y)
 }
