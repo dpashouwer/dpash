@@ -10,7 +10,6 @@
 #' @examples
 pull_formidable_entries <- function(url, my_username, my_password, page_size = 500){
 
-  # loop to pull and bind multiple pages
   page <- 1
 
   message("Retrieving page: ", page)
@@ -45,4 +44,22 @@ pull_formidable_entries <- function(url, my_username, my_password, page_size = 5
       all_entries <- rbind_tbl_json(all_entries, page_data)
     }
   }
+}
+
+
+#' bind json pages together using tidyjson
+#'
+#' @param x
+#' @param y
+#'
+#' @return
+#' @export
+#'
+#' @examples
+rbind_tbl_json <- function(x, y) {
+
+  tbl_json(
+    bind_rows(x %>% unclass, y %>% unclass),
+    c(attr(x, "JSON"), attr(y, "JSON"))
+  )
 }
