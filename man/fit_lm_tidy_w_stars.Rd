@@ -2,7 +2,7 @@
 % Please edit documentation in R/fit_models.R
 \name{fit_lm_tidy_w_stars}
 \alias{fit_lm_tidy_w_stars}
-\title{Fit lm, tidy, and add estimate_w_stars}
+\title{bar_chart_stacked}
 \usage{
 fit_lm_tidy_w_stars(dat, formula)
 }
@@ -15,7 +15,7 @@ fit_lm_tidy_w_stars(dat, formula)
 data.frame
 }
 \description{
-Fit lm, tidy, and add estimate_w_stars
+bar_chart_stacked
 }
 \examples{
 fit_lm_tidy_w_stars(trees, Girth ~ Volume)

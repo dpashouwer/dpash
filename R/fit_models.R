@@ -1,4 +1,4 @@
-#' Fit lm, tidy, and add estimate_w_stars
+#' bar_chart_stacked
 #'
 #' @param dat data.frame
 #' @param formula formula for lm

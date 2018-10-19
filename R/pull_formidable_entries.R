@@ -44,6 +44,6 @@ pull_formidable_entries <- function(url, my_username, my_password, page_size = 5
 # make tibble
 collapse_list_item_to_df <- function(x){
   y <- purrr::flatten(x)
-  y <- y[names(y)] # this has different length, messes things up, don't need for now
+  y <- y[names(y)]
   tibble::as_tibble(y)
 }
