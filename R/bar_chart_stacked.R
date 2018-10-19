@@ -31,8 +31,8 @@ bar_chart_stack <- function (df,
       dplyr::mutate(perc = n/sum(n))
 
     plot <- plot_data %>%
-      ggplot(aes(x = "", fill = vec.factor)) +
-      geom_bar(position = position_fill())
+      ggplot2::ggplot(aes(x = "", fill = vec.factor)) +
+      ggplot2::geom_bar(position = position_fill())
 
     plot
 
@@ -48,12 +48,12 @@ bar_chart_stack <- function (df,
       tidyr::complete(vec.factor, group.factor, fill = list(n = NA, perc = NA))
 
     plot <- plot_data %>%
-      ggplot(aes(x = group.factor, y = n, fill = vec.factor)) +
-      geom_bar(position = position_fill(), stat = "identity")
+      ggplot2::ggplot(aes(x = group.factor, y = n, fill = vec.factor)) +
+      ggplot2::geom_bar(position = position_fill(), stat = "identity")
   }
 
   plot <- plot +
-    theme(axis.line.y = element_blank(),
+    ggplot2::theme(axis.line.y = element_blank(),
           axis.line.x = element_line(color = "grey70", size = 0.2),
           axis.text.y = element_blank(), axis.text.x = element_text(family = font, size = font_size), axis.ticks = element_blank(),
           axis.title.x = element_text(family = font, size = font_size),

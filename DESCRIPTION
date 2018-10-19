@@ -19,5 +19,7 @@ Imports:
     modelr,
     magrittr,
     httr,
-    jsonlite
+    jsonlite,
+    ggplot2,
+    lazyeval
 RoxygenNote: 6.1.0
