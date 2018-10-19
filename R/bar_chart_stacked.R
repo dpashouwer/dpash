@@ -13,8 +13,13 @@
 bar_chart_stack <- function (df,
                              yvar,
                              xvar,
+                             labels = "pct",
+                             coord_flip = FALSE,
+                             title = NULL,
+                             xlab = NULL,
+                             ylab = NULL,
                              font = "Segoe UI",
-                             font_size = 12)
+                             font_size = 8)
 {
   if (!is.data.frame(df)) {
     stop("You must supply a data.frame to the df argument")
@@ -34,8 +39,6 @@ bar_chart_stack <- function (df,
       ggplot2::ggplot(aes(x = "", fill = vec.factor)) +
       ggplot2::geom_bar(position = position_fill())
 
-    plot
-
   } else {
     plot_data <- df %>%
       dplyr::select_(.dots = list(vec = lazyeval::lazy(yvar), group.vec = lazyeval::lazy(xvar))) %>%
@@ -50,17 +53,38 @@ bar_chart_stack <- function (df,
     plot <- plot_data %>%
       ggplot2::ggplot(aes(x = group.factor, y = n, fill = vec.factor)) +
       ggplot2::geom_bar(position = position_fill(), stat = "identity")
+
+    if(labels == "pct"){
+      plot <- plot  +
+        geom_text(aes(label = paste0((perc * 100) %>% round(digits = 0), "%")), position = position_fill(vjust = 0.5))} else if(labels == "n"){
+      plot <- plot +
+        geom_text(aes(label = n), position = position_fill(vjust = 0.5))
+    }
+  }
+
+  if(coord_flip == TRUE){
+    plot <- plot +
+      ggplot2::coord_flip() +
+      theme(axis.text.x = element_blank(),
+            axis.text.y = element_text(family = font, size = font_size))
+  } else {
+    plot <- plot +
+      theme(axis.text.x = element_text(family = font, size = font_size),
+            axis.text.y = element_blank())
   }
 
   plot <- plot +
+    ggplot2::ggtitle(label = title) +
+    ggplot2::labs(x = xlab, y = ylab) +
     ggplot2::theme(axis.line.y = element_blank(),
-          axis.line.x = element_line(color = "grey70", size = 0.2),
-          axis.text.y = element_blank(), axis.text.x = element_text(family = font, size = font_size), axis.ticks = element_blank(),
-          axis.title.x = element_text(family = font, size = font_size),
-          axis.title.y = element_blank(), legend.key = element_blank(),
-          legend.position = "bottom", legend.text = element_text(family = font, size = font_size), legend.title = element_blank(),
-          panel.background = element_blank(), panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(), plot.title = element_text(family = font, face = "bold", size = font_size))
+                   axis.line.x = element_line(color = "grey70", size = 0.2),
+                   axis.ticks = element_blank(),
+                   legend.position = "bottom", legend.text = element_text(family = font, size = font_size), legend.title = element_blank(),
+                   panel.background = element_blank(),
+                   panel.grid.major = element_blank(),
+                   panel.grid.minor = element_blank(),
+                   plot.title = element_text(family = font, face = "bold", size = font_size, hjust = .5))
+
   plot
 
 }
