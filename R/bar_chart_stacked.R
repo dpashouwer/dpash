@@ -27,7 +27,11 @@ bar_chart_stack <- function (df,
   if (missing(yvar)) {
     stop("You must supply a column name to the yvar argument")
   }
+
+  #### Single plot
   if (missing(xvar)) {
+
+    # clean plot data
     plot_data <- df %>%
       dplyr::select_(.dots = list(vec = lazyeval::lazy(yvar))) %>%
       dplyr::mutate(vec.factor = as.factor(vec)) %>%
@@ -35,11 +39,24 @@ bar_chart_stack <- function (df,
       dplyr::tally() %>%
       dplyr::mutate(perc = n/sum(n))
 
+    # make plot
     plot <- plot_data %>%
-      ggplot2::ggplot(aes(x = "", fill = vec.factor)) +
-      ggplot2::geom_bar(position = position_fill())
+      ggplot2::ggplot(aes(x = "", y = n, fill = vec.factor)) +
+      ggplot2::geom_bar(position = position_fill(), stat = "identity")
 
+    # labels
+    if(labels == "pct"){
+      plot <- plot +
+        geom_text(aes(label = paste0((perc * 100) %>% round(digits = 0), "%")), position = position_fill(vjust = 0.5))
+      } else if(labels == "n"){
+      plot <- plot +
+        ggplot2::geom_text(aes(label = n), position = position_fill(vjust = 0.5))
+    }
   } else {
+
+    #### Multi plot
+
+    # clean plot data
     plot_data <- df %>%
       dplyr::select_(.dots = list(vec = lazyeval::lazy(yvar), group.vec = lazyeval::lazy(xvar))) %>%
       dplyr::mutate(vec.factor = as.factor(vec), group.factor = as.factor(group.vec)) %>%
@@ -50,10 +67,12 @@ bar_chart_stack <- function (df,
       dplyr::ungroup() %>%
       tidyr::complete(vec.factor, group.factor, fill = list(n = NA, perc = NA))
 
+    # make plot
     plot <- plot_data %>%
       ggplot2::ggplot(aes(x = group.factor, y = n, fill = vec.factor)) +
       ggplot2::geom_bar(position = position_fill(), stat = "identity")
 
+    # labels
     if(labels == "pct"){
       plot <- plot  +
         geom_text(aes(label = paste0((perc * 100) %>% round(digits = 0), "%")), position = position_fill(vjust = 0.5))} else if(labels == "n"){
@@ -62,6 +81,7 @@ bar_chart_stack <- function (df,
     }
   }
 
+  # coord_flip
   if(coord_flip == TRUE){
     plot <- plot +
       ggplot2::coord_flip() +
@@ -73,6 +93,7 @@ bar_chart_stack <- function (df,
             axis.text.y = element_blank())
   }
 
+  # themes
   plot <- plot +
     ggplot2::ggtitle(label = title) +
     ggplot2::labs(x = xlab, y = ylab) +
