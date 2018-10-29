@@ -1,18 +1,23 @@
 #' Make stacked bar chart in TNTP style
 #'
 #' @param df data frame
-#' @param yvar fill variable
-#' @param xvar group
 #' @param font
 #' @param font_size
+#' @param var
+#' @param group_var
+#' @param labels
+#' @param coord_flip
+#' @param title
+#' @param xlab
+#' @param ylab
 #'
 #' @return
 #' @export
 #'
 #' @examples
 bar_chart_stack <- function (df,
-                             yvar,
-                             xvar,
+                             var,
+                             group_var,
                              labels = "pct",
                              coord_flip = FALSE,
                              title = NULL,
@@ -24,16 +29,16 @@ bar_chart_stack <- function (df,
   if (!is.data.frame(df)) {
     stop("You must supply a data.frame to the df argument")
   }
-  if (missing(yvar)) {
-    stop("You must supply a column name to the yvar argument")
+  if (missing(var)) {
+    stop("You must supply a column name to the var argument")
   }
 
   #### Single plot
-  if (missing(xvar)) {
+  if (missing(group_var)) {
 
     # clean plot data
     plot_data <- df %>%
-      dplyr::select_(.dots = list(vec = lazyeval::lazy(yvar))) %>%
+      dplyr::select_(.dots = list(vec = lazyeval::lazy(var))) %>%
       dplyr::mutate(vec.factor = as.factor(vec)) %>%
       dplyr::group_by(vec.factor) %>%
       dplyr::tally() %>%
@@ -58,7 +63,7 @@ bar_chart_stack <- function (df,
 
     # clean plot data
     plot_data <- df %>%
-      dplyr::select_(.dots = list(vec = lazyeval::lazy(yvar), group.vec = lazyeval::lazy(xvar))) %>%
+      dplyr::select_(.dots = list(vec = lazyeval::lazy(var), group.vec = lazyeval::lazy(group_var))) %>%
       dplyr::mutate(vec.factor = as.factor(vec), group.factor = as.factor(group.vec)) %>%
       dplyr::group_by(vec.factor, group.factor) %>%
       dplyr::tally() %>%
@@ -75,37 +80,48 @@ bar_chart_stack <- function (df,
     # labels
     if(labels == "pct"){
       plot <- plot  +
-        geom_text(aes(label = paste0((perc * 100) %>% round(digits = 0), "%")), position = position_fill(vjust = 0.5))} else if(labels == "n"){
+        ggplot2::geom_text(aes(label = paste0((perc * 100) %>% round(digits = 0), "%")), position = position_fill(vjust = 0.5))} else if(labels == "n"){
       plot <- plot +
-        geom_text(aes(label = n), position = position_fill(vjust = 0.5))
+        ggplot2::geom_text(aes(label = n), position = position_fill(vjust = 0.5))
     }
   }
 
-  # coord_flip
-  if(coord_flip == TRUE){
-    plot <- plot +
-      ggplot2::coord_flip() +
-      theme(axis.text.x = element_blank(),
-            axis.text.y = element_text(family = font, size = font_size))
-  } else {
-    plot <- plot +
-      theme(axis.text.x = element_text(family = font, size = font_size),
-            axis.text.y = element_blank())
-  }
+  # # coord_flip
+  # if(coord_flip == TRUE){
+  #   plot <- plot +
+  #     ggplot2::coord_flip() +
+  #     theme(axis.text.x = element_blank(),
+  #           axis.text.y = element_text(family = font, size = font_size))
+  # } else {
+  #   plot <- plot +
+  #     theme(axis.text.x = element_text(family = font, size = font_size),
+  #           axis.text.y = element_blank())
+  # }
 
   # themes
   plot <- plot +
     ggplot2::ggtitle(label = title) +
     ggplot2::labs(x = xlab, y = ylab) +
-    ggplot2::theme(axis.line.y = element_blank(),
-                   axis.line.x = element_line(color = "grey70", size = 0.2),
+    ggplot2::theme(# title
+                   plot.title = element_text(family = font, face = "bold", size = font_size + 4, hjust = .5),
+
+                   # axis decorations
+                   axis.line.y = element_blank(),
+                   axis.line.x = element_blank(),
                    axis.ticks = element_blank(),
+
+                   # legend
                    legend.position = "bottom", legend.text = element_text(family = font, size = font_size), legend.title = element_blank(),
+
+                   # panels
                    panel.background = element_blank(),
                    panel.grid.major = element_blank(),
-                   panel.grid.minor = element_blank(),
-                   plot.title = element_text(family = font, face = "bold", size = font_size, hjust = .5))
+                   panel.grid.minor = element_blank()
+
+                   )
+
 
   plot
 
 }
+

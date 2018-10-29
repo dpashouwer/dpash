@@ -17,6 +17,7 @@ tabyl_ms_stacked_bar <- function(dat, var1, var2){
   tabyl_perc <- dat %>%
     tabyl(!! var1, !! var2) %>%
     adorn_percentages("row") %>%
+    adorn_totals("row") %>%
     adorn_pct_formatting(digits = 0, affix_sign = TRUE) %>%
     mutate_all(as.character)
 
