@@ -4,16 +4,14 @@
 \alias{bar_chart_stack}
 \title{Make stacked bar chart in TNTP style}
 \usage{
-bar_chart_stack(df, yvar, xvar, font = "Segoe UI", font_size = 12)
+bar_chart_stack(df, var, group_var, labels = "pct", coord_flip = FALSE,
+  title = NULL, xlab = NULL, ylab = NULL, font = "Segoe UI",
+  font_size = 8)
 }
 \arguments{
 \item{df}{data frame}
 
-\item{yvar}{fill variable}
-
-\item{xvar}{group}
-
-\item{font_size}{}
+\item{ylab}{}
 }
 \description{
 Make stacked bar chart in TNTP style

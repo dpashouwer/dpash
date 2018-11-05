@@ -102,6 +102,9 @@ bar_chart_stack <- function (df,
   plot <- plot +
     ggplot2::ggtitle(label = title) +
     ggplot2::labs(x = xlab, y = ylab) +
+
+    tntpr::theme_tntp() +
+
     ggplot2::theme(# title
                    plot.title = element_text(family = font, face = "bold", size = font_size + 4, hjust = .5),
 
