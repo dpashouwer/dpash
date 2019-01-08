@@ -11,12 +11,12 @@
 fit_lm_tidy_w_stars <- function(dat, formula){
   dat %>%
     as.data.frame() %>%
-    lm(formula = formula) %>%
-    tidy() %>%
-    mutate(stars = case_when(p.value < .001 ~ "***",
+    stats::lm(formula = formula) %>%
+    broom::tidy() %>%
+    dplyr::mutate(stars = case_when(p.value < .001 ~ "***",
                              p.value >= .001 & p.value < .01 ~ "**",
                              p.value >= .01 & p.value < .05 ~ "*",
                              TRUE ~ ""),
            estimate_w_stars = paste0(round(estimate, digits = 2), stars)) %>%
-    select(-stars)
+    dplyr::select(-stars)
 }

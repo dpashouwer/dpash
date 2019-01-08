@@ -21,5 +21,8 @@ Imports:
     httr,
     jsonlite,
     ggplot2,
-    lazyeval
+    lazyeval,
+    pacman,
+    RODBC,
+    rlang
 RoxygenNote: 6.1.0

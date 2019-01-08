@@ -3,7 +3,6 @@
 export("%>%")
 export(bar_chart_stack)
 export(fit_lm_tidy_w_stars)
-export(pull_formidable_entries)
 export(tabyl_3way_long)
 export(tabyl_ms_stacked_bar)
 export(tt2_get_query)
