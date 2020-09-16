@@ -13,6 +13,9 @@ tabyl_ms_stacked_bar(dat, var1, var2)
 
 \item{var2}{column variable}
 }
+\value{
+
+}
 \description{
 Data Formatted for MS Stacked Bar Charts
 }

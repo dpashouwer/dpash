@@ -9,6 +9,9 @@ fix_SM_dual_row_names(dat)
 \arguments{
 \item{dat}{}
 }
+\value{
+
+}
 \description{
 Fix Survey Monkey's dual row names
 }

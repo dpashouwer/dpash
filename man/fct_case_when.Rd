@@ -9,6 +9,9 @@ fct_case_when(...)
 \arguments{
 \item{...}{}
 }
+\value{
+
+}
 \description{
 fct_case_whn
 }

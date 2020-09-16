@@ -23,6 +23,6 @@ Imports:
     ggplot2,
     lazyeval,
     pacman,
-    RODBC,
-    rlang
-RoxygenNote: 6.1.1
+    rlang,
+    readxl
+RoxygenNote: 7.1.1

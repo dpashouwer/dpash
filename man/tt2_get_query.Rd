@@ -9,6 +9,9 @@ tt2_get_query(path_to_query)
 \arguments{
 \item{path_to_query}{file path}
 }
+\value{
+
+}
 \description{
 Feed it a filepath where a query lives in a .txt file, it fetches the query
 }

@@ -9,6 +9,9 @@ tabyl_2way_long(tabyl)
 \arguments{
 \item{tabyl}{}
 }
+\value{
+
+}
 \description{
 tabyl_2way_long
 }

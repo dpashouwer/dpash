@@ -9,6 +9,9 @@ year_over_year_movement(year1, year2)
 \arguments{
 \item{year2}{}
 }
+\value{
+
+}
 \description{
 Teacher Year-Over-Year Movement
 }

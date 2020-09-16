@@ -10,8 +10,11 @@ tabyl_3way_long(tabyl, var3)
 }
 \arguments{
 \item{var3}{}
+}
+\value{
 
-\item{var3}{}
+
+
 }
 \description{
 tabyl_3way_long
