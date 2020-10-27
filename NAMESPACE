@@ -3,6 +3,7 @@
 export("%>%")
 export(add_percent)
 export(bar_chart_stack)
+export(coalesce_join)
 export(fct_case_when)
 export(fit_lm_tidy_w_stars)
 export(fix_SM_dual_row_names)
