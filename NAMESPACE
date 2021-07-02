@@ -2,6 +2,7 @@
 
 export("%>%")
 export(add_percent)
+export(adorn_perc_and_ns)
 export(bar_chart_stack)
 export(coalesce_join)
 export(fct_case_when)
