@@ -6,13 +6,10 @@
 #' @return
 #' @export
 #'
-#' @examples tntpr::wisc %>%
-#' count(grade, school) %>%
-#' add_percent(grade)
-add_percent <- function(.data, ...){
+add_percent <- function(.data, group_vars = ...){
   .data %>%
     dplyr::group_by(...) %>%
-    dplyr::mutate(percent = round(n / sum(n), 4)) %>%
+    dplyr::mutate(perc = round(n / sum(n), 4)) %>%
     dplyr::ungroup()
 }
 

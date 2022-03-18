@@ -4,7 +4,7 @@
 \alias{add_percent}
 \title{Title}
 \usage{
-add_percent(.data, ...)
+add_percent(.data, group_vars = ...)
 }
 \arguments{
 \item{group_vars}{}
@@ -14,9 +14,4 @@ add_percent(.data, ...)
 }
 \description{
 Title
-}
-\examples{
-tntpr::wisc \%>\%
-count(grade, school) \%>\%
-add_percent(grade)
 }

@@ -24,5 +24,6 @@ Imports:
     lazyeval,
     pacman,
     rlang,
-    readxl
-RoxygenNote: 7.1.1
+    readxl,
+    fs
+RoxygenNote: 7.1.2
